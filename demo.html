@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <script src="jquery-2.1.4.js"></script>
+        <script src="jquery.cropit.js"></script>
+       
+         <style>
+             
+      .cropit-image-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 250px;
+        height: 250px;
+        cursor: move;
+      }
+
+      .cropit-image-background {
+        opacity: .2;
+        cursor: auto;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
+
+      input {
+        display: block;
+      }
+
+      .export {
+        margin-top: 10px;
+      }
+    </style>
+        <script>
+          /*  $(function () {
+                $('.image-editor').cropit();
+                $('form').submit(function () {
+                    // Move cropped image data to hidden input
+                    var imageData = $('.image-editor').cropit('export');
+                    $('.hidden-image-data').val(imageData);
+                    // Print HTTP request params
+                    var formValue = $(this).serialize();
+                    $('#result-data').text(formValue);
+                    // Prevent the form from actually submitting
+                    return false;
+                });
+                $('.export').click(function () {
+
+                    var imageData = $('.image-editor').cropit('export');
+
+                    var img = document.createElement("img");
+
+
+
+                    img.onerror = function () {
+                        // fail();
+                        //alert('not ok');
+                    };
+                    img.onload = function () {
+                        //success();
+                        //alert('ok');
+                    };
+                    img.src = imageData;
+                    $('#show').html(img);
+                    //alert(imageData);
+                    $.ajax({
+                        url: 'upload.php',
+                        type: 'POST',
+                        data: "image=" + base64data(img.src),
+                        cache: false,
+                        success: function (response) {
+                           $('#showresp').html(response);
+                           // alert(response);
+                        }
+
+                    });
+
+
+
+                    //img.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="; // insert a dot image contains 1px.
+                });
+            });
+            */
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('#box').draggable({ containment: '#container' });
+                $('#box').resizable({ containment: '#container' });
+
+                $('#button').click(function () {
+                    var top = $('#box').position().top;
+                    var left = $('#box').position().left;
+                    var width = $('#box').width();
+                    var height = $('#box').height();
+
+                    $.post('crop.php', { top: top, left: left, width: width, height: height }, function () {
+                        $('#output').html('<img src="new.jpg"/>');
+                    });
+                });
+            });
+        </script>
+
+    </head>
+    <body>
+        <div id="showresp">
+        </div>
+        <div class="image-editor">
+            <input type="file" class="cropit-image-input">
+            <div class="cropit-image-preview"></div>
+            <div class="image-size-label">
+       Resize image
+            </div>
+            <input type="range" class="cropit-image-zoom-input">
+            <button class="export">Export</button>
+        </div>
+        <div id="show">
+        </div>
+    </body>
+</html>

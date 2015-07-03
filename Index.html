@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+         <script type="text/javascript" src="../bootstrap/js/dropdown.js"></script>
+        <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
+        <script src="../bootstrap/js/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+       <script src="Zoom.js"></script>
+       <!---- <script src="../Ajax/jquery.form.js"></script>       -->
+        <style>
+         /*   .inpthdn img
+                {
+                    opacity: 1;
+                     transition-timing-function: linear;
+                    -webkit-transition-timing-function:linear;
+                    transition: opacity .5s;        
+                }
+            .inpthdn span
+            {
+                padding: 1px;
+                background-color: rgba(0, 0, 0, 0.69);
+                color: #fff;
+                width:235px;
+                position: absolute;
+                top:100px;
+                display: none;
+            }
+            .inpthdn:hover >img
+            {
+                opacity:0.5; 
+            }
+             .inpthdn:hover >span
+            {
+                display: block;
+                opacity: 1;
+            }*/
+            
+        </style>
+    </head>
+    <body>
+        <script>
+                                $(document).ready(function (e) {
+                                    //this function upload a image
+                                    $("#myForm").on('submit', function (e) {
+                                        e.preventDefault();
+                                        $.ajax({
+                                            //url: "../Edit/Upload.php?&UploadType=Profile", // Url to which the request is send
+                                            url: "../Edit/PhotoUpload.php",
+                                            type: "POST",             // Type of request to be send, called as method
+                                            data:new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                            contentType: false,       // The content type used when sending data to the server.
+                                            cache: false,             // To unable request pages to be cached
+                                            processData: false,        // To send DOMDocument or non processed data file it is set to false
+                                            success: function (response)   // A function to be called if request succeeds
+                                            {
+                                                if(response==1)
+                                                $("#message").html('<p style="color:blue">Image Uploaded Successfully</p>');
+                                                else
+                                                $("#message").html('<p style="color:red">'+response+'</p>');
+                                            }
+                                        });
+                                    });
+                                    //this function preview when image is uploaded
+                                    $(function () {
+                                        $("#file").change(function () {
+                                            $("#message").empty(); // To remove the previous error message
+                                            var file = this.files[0];
+                                            var imagefile = file.type;
+                                            var match = ["image/jpeg", "image/png", "image/jpg","image/gif"];
+                                            if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]) || (imagefile == match[3]))) {
+                                                $("#message").html("<p id='error' style='color:red'>Please Select A valid Image File</p>" + "<h4>Note</h4>" + "<span id='error_message'>Only jpeg, jpg, gif and png Images type allowed</span>");
+                                                return false;
+                                            }
+                                            else {
+                                                var reader = new FileReader();
+                                                reader.onload = imageIsLoaded;
+                                                reader.readAsDataURL(this.files[0]);
+                                            }
+                                        });
+                                    });
+                                    function imageIsLoaded(e) {
+                                        $("#file").css("color", "green");
+                                        $('#show').html("<img src=" + e.target.result + " style='height:250px' class='img-rounded' >");
+                                    };
+                                });
+                            </script>
+        <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Profile Picture </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-lg-4">
+                            
+                            <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="myForm" >
+                          
+                                <label for="file" class="inpthdn"><img src="<?php echo $_SESSION['DP'];?>" class="img-rounded" alt="Dp" style="height:220px"><span> Click here to choose a picture for your profile</span></label>
+                                <input type="file" name="file" id="file" style="display: none">
+                            </form>
+                        </div>
+                        <div class="col-lg-6" id="show" style="height:250px; border-right: 1px dashed blue;border-left: 1px solid blue">
+                        </div>
+                         <div class="col-lg-2" id="message" >
+                             
+                        </div>
+                        
+                    </div>
+                    <div class="panel-footer">
+                           <button type="submit" class="btn btn-primary"  form="myForm" id="save_edit" >Save</button>
+                    </div>
+                </div>
+
+    </body>
+</html>
