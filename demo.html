@@ -37,7 +37,7 @@
       }
     </style>
         <script>
-          /*  $(function () {
+            $(function () {
                 $('.image-editor').cropit();
                 $('form').submit(function () {
                     // Move cropped image data to hidden input
@@ -71,7 +71,7 @@
                     $.ajax({
                         url: 'upload.php',
                         type: 'POST',
-                        data: "image=" + base64data(img.src),
+                        data: "image=" + imageData,
                         cache: false,
                         success: function (response) {
                            $('#showresp').html(response);
@@ -85,7 +85,7 @@
                     //img.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="; // insert a dot image contains 1px.
                 });
             });
-            */
+            
         </script>
 
         <script>
